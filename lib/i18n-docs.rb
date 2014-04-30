@@ -9,7 +9,7 @@ require 'localch_i18n/missing_keys_finder'
 require 'localch_i18n/csv_to_yaml'
 require 'localch_i18n/translations'
 require 'localch_i18n/translation_file_export'
-
+require 'localch_i18n/google_downloader'
 
 
 if defined?(Rails)
@@ -19,4 +19,3 @@ if defined?(Rails)
     end
   end
 end
-

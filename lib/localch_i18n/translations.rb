@@ -4,6 +4,9 @@
 #  store_translations
 #  clean_up
 #
+require 'awesome_print'
+require 'roo'
+
 module LocalchI18n
   class Translations
 
@@ -29,17 +32,27 @@ module LocalchI18n
       @settings = YAML.load_file(config_file) if File.exists?(config_file)
     end
 
+    # New version of download_files
+    # Now uses the google docs api to fetch the files
+    # It enforces OAuth2
     def download_files
       files = @settings['files']
-      files.each do |target_file, url|
-        #ensure .yml filename
+      gd = GoogleDownloader.new @settings
+
+      files.each do |target_file, file_id|
         target_file = target_file + ".yml" if target_file !~ /\.yml$/
-        # download file to tmp directory
-        tmp_file = File.basename(target_file).gsub('.yml', '.csv')
-        tmp_file = File.join(@tmp_folder, tmp_file)
-        download(url, tmp_file)
-        @csv_files[target_file] = tmp_file
+        response = gd.download target_file, @tmp_folder, file_id
+        @csv_files[target_file] = csv_convert(target_file)
       end
+    end
+
+    def csv_convert target_file
+      source = File.join(@tmp_folder, target_file.gsub(".yml", ".ods"))
+      dest = File.join(@tmp_folder, target_file)
+
+      sheet = Roo::OpenOffice.new source
+      sheet.to_csv dest
+      dest
     end
 
     def store_translations
@@ -56,6 +69,7 @@ module LocalchI18n
       # remove all tmp files
       @csv_files.each do |target_file, csv_file|
         File.unlink(csv_file)
+        File.unlink(File.join(@tmp_folder, target_file.gsub(".yml", ".ods")))
       end
     end
 
@@ -69,5 +83,3 @@ module LocalchI18n
 
   end
 end
-
-

@@ -1,3 +1,4 @@
+# coding: utf-8
 
 module LocalchI18n
   class MissingKeysFinder
@@ -90,6 +91,10 @@ module LocalchI18n
     rescue I18n::MissingInterpolationArgument
       return true
     rescue I18n::MissingTranslationData
+      return false
+    rescue NoMethodError
+      return false
+    rescue ArgumentError
       return false
     end
 
