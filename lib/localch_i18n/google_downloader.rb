@@ -27,10 +27,10 @@ module LocalchI18n
     def download target_file, tmp_folder, file_id
       base = get_metadata file_id
       return nil unless base["exportLinks"]
-      result = @client.execute uri: base["exportLinks"]["application/x-vnd.oasis.opendocument.spreadsheet"]
+      result = @client.execute uri: base["exportLinks"]["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
 
       if result.status == 200
-        File.open File.join(tmp_folder, target_file.gsub(/yml$/, "ods")), "wb" do |f|
+        File.open File.join(tmp_folder, target_file.gsub(/yml$/, "xlsx")), "wb" do |f|
           f.write result.body
         end
       end

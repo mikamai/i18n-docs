@@ -46,10 +46,10 @@ module LocalchI18n
     end
 
     def csv_convert target_file
-      source = File.join(@tmp_folder, target_file.gsub(".yml", ".ods"))
+      source = File.join(@tmp_folder, target_file.gsub(".yml", ".xlsx"))
       dest = File.join(@tmp_folder, target_file)
 
-      sheet = Roo::OpenOffice.new source
+      sheet = Roo::Excelx.new source
       sheet.to_csv dest
       dest
     end
@@ -68,7 +68,7 @@ module LocalchI18n
       # remove all tmp files
       @csv_files.each do |target_file, csv_file|
         File.unlink(csv_file)
-        File.unlink(File.join(@tmp_folder, target_file.gsub(".yml", ".ods")))
+        File.unlink(File.join(@tmp_folder, target_file.gsub(".yml", ".xlsx")))
       end
     end
 
