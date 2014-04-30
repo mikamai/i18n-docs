@@ -4,7 +4,6 @@
 #  store_translations
 #  clean_up
 #
-require 'awesome_print'
 require 'roo'
 
 module LocalchI18n
