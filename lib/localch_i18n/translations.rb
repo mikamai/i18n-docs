@@ -5,6 +5,7 @@
 #  clean_up
 #
 require 'roo'
+require 'base64'
 
 module LocalchI18n
   class Translations
@@ -28,7 +29,7 @@ module LocalchI18n
 
     def load_config
       @settings = {}
-      @settings = YAML.load_file(config_file) if File.exists?(config_file)
+      @settings = YAML.load(ERB.new(File.read(config_file)).result) if File.exists?(config_file)
     end
 
     # New version of download_files

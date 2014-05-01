@@ -5,12 +5,13 @@ require "json"
 module LocalchI18n
   class GoogleDownloader
     def initialize settings = {}
+      require 'awesome_print'
       @client = Google::APIClient.new(
         application_name: settings["application"]["name"],
         application_version: settings["application"]["version"]
       )
 
-      key = Google::APIClient::KeyUtils.load_from_pkcs12 settings["application"]["pkcs12"], 'notasecret'
+      key = Google::APIClient::KeyUtils.load_from_pkcs12 Base64.urlsafe_decode64(settings["application"]["pkcs12"]), 'notasecret'
 
       @client.authorization = Signet::OAuth2::Client.new(
         token_credential_uri: "https://accounts.google.com/o/oauth2/token",
