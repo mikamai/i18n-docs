@@ -5,7 +5,6 @@ require "json"
 module LocalchI18n
   class GoogleDownloader
     def initialize settings = {}
-      require 'awesome_print'
       @client = Google::APIClient.new(
         application_name: settings["application"]["name"],
         application_version: settings["application"]["version"]
