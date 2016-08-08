@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   # dependencies
   s.add_dependency('rake')
-  s.add_dependency('google-api-client')
+  s.add_dependency('google-api-client', '~> 0.8.1')
   s.add_dependency('roo')
   s.add_development_dependency('mocha', '~> 0.13.3')
   s.add_development_dependency('awesome_print')
